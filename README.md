@@ -1,4 +1,0 @@
-quad
-====
-
-Test Quad Py
