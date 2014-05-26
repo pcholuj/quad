@@ -1,6 +1,3 @@
-var PORT = 33333;
-var HOST = '127.0.0.1';
-
 var net = require('net');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort; // localize object constructor

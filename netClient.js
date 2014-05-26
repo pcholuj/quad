@@ -2,7 +2,7 @@ var net = require('net');
 var joystick = new(require('joystick'))(0, 3500, 350);
 
 var config = {
-    host: '127.0.0.1',
+    host: 'copter',
     port: 3000
 };
 
@@ -49,6 +49,7 @@ var Client = (function () {
         var self = this;
 
         joystick.on('axis', function (data) {
+            // console.log(data);
             if (data.number == 4 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
@@ -105,7 +106,7 @@ var Client = (function () {
                 });
             }
 
-            if (data.number == 2 && data.type === 'axis') {
+            if (data.number == 5 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }

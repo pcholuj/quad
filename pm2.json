@@ -1,0 +1,5 @@
+{
+    "name": "Quad",
+    "script": "./netSerwer.js",
+    "exec_mode": "fork_mode",
+}
