@@ -58,7 +58,7 @@ var Serwer = (function () {
 
             setInterval(function () {
                 self.portWrite(200, self.parseRc.call(self));
-            }, 350);
+            }, 250);
         });
 
 
