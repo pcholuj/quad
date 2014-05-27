@@ -16,7 +16,7 @@ var Client = (function () {
         }
         var self = this;
         this.client = new net.Socket();
-
+        self.armed = false;
 
         this.client.connect(options.port, options.host, function () {
             self.bindJoy.call(self);
@@ -47,10 +47,17 @@ var Client = (function () {
 
     Client.prototype.bindJoy = function () {
         var self = this;
-
+        joystick.on('button', function (data) {
+            if (data.number === 8 && data.value === 1) {
+                self.armed = self.armed ? false : true;
+                self.sendRc({
+                    aux1: self.armed ? 1000 : 2000
+                });
+            }
+        });
         joystick.on('axis', function (data) {
             // console.log(data);
-            if (data.number == 4 && data.type === 'axis') {
+            if (data.number == 2 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }
@@ -78,7 +85,7 @@ var Client = (function () {
                 });
             }
 
-            if (data.number == 0 && data.type === 'axis') {
+            if (data.number === 0 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }
@@ -92,22 +99,8 @@ var Client = (function () {
                 });
             }
 
-            if (data.number == 1 && data.type === 'axis') {
-                if (data.value < -30000) {
-                    data.value = -30000;
-                }
-
-                if (data.value > 0) {
-                    data.value = 0;
-                }
-
-                self.sendRc({
-                    throttle: parseInt(1000 - data.value / 30, 10)
-                });
-            }
-
             if (data.number == 5 && data.type === 'axis') {
-                if (data.value > 30000) {
+                 if (data.value > 30000) {
                     data.value = 30000;
                 }
 
@@ -115,10 +108,30 @@ var Client = (function () {
                     data.value = -30000;
                 }
 
+                data.value = data.value + 30000;
+
+                if (data.value > 600000) {
+                    data.value = 600000;
+                }
+
                 self.sendRc({
-                    aux1: parseInt(1500 - data.value / 60, 10)
+                    throttle: parseInt(1000 + data.value / 60, 10)
                 });
             }
+
+            // if (data.number == 5 && data.type === 'axis') {
+            //     if (data.value > 30000) {
+            //         data.value = 30000;
+            //     }
+
+            //     if (data.value < -30000) {
+            //         data.value = -30000;
+            //     }
+
+            //     self.sendRc({
+            //         aux1: parseInt(1500 - data.value / 60, 10)
+            //     });
+            // }
         });
     };
 

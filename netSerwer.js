@@ -58,7 +58,7 @@ var Serwer = (function () {
 
             setInterval(function () {
                 self.portWrite(200, self.parseRc.call(self));
-            }, 10);
+            }, 350);
         });
 
 
@@ -76,10 +76,10 @@ var Serwer = (function () {
                 }
 
                 for (var part in dataArray) {
-                    var data = dataArray[part];
+                    var jdata = dataArray[part];
                     try {
-                        var data = JSON.parse(data);
-                        self.parseNetData.call(self, data);
+                        jdata = JSON.parse(jdata);
+                        self.parseNetData.call(self, jdata);
                     } catch (e) {
                         console.error('ERROR recive data', e);
                     }
@@ -97,7 +97,7 @@ var Serwer = (function () {
         var self = this;
 
         if (response.action === 'rc') {
-            var data = response.data
+            var data = response.data;
             for (var i in data) {
                 if (typeof self.rc[i] !== 'undefined') {
                     self.rc[i] = data[i];
@@ -119,7 +119,7 @@ var Serwer = (function () {
         buf.writeUInt16LE(this.rc.aux3, 12);
         buf.writeUInt16LE(this.rc.aux4, 14);
         return buf;
-    }
+    };
 
     Serwer.prototype.portWrite = function (code, data) {
         var buffer = this.msp.message_encode(code, data);

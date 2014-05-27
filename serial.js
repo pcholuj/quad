@@ -58,9 +58,9 @@ var Copter = (function () {
                 self.write(200, prepare());
             }, 10);
 
-            joystick.on('button', console.log);
             joystick.on('axis', function (data) {
-                if (data.number == 4 && data.type === 'axis') {
+                console.log(data);
+                if (data.number == 2 && data.type === 'axis') {
                     if (data.value > 30000) {
                         data.value = 30000;
                     }
@@ -105,10 +105,10 @@ var Copter = (function () {
                         data.value = 0;
                     }
 
-                    self.rc.throttle = parseInt(1000 - data.value / 30, 10) - 1;
+                    self.rc.throttle = parseInt(1000 - data.value / 30, 10);
                 }
 
-                 if (data.number == 2 && data.type === 'axis') {
+                 if (data.number == 5 && data.type === 'axis') {
                     if (data.value > 30000) {
                         data.value = 30000;
                     }
