@@ -1,5 +1,6 @@
 {
     "name": "Quad",
     "script": "./netSerwer.js",
-    "exec_mode": "fork_mode"
+    "exec_mode": "fork_mode",
+    "instances"  : "1"
 }
