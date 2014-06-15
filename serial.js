@@ -11,6 +11,7 @@ var Copter = (function () {
             return new Copter(args);
         }
         var self = this;
+        self.armed = false;
 
         self.msp = new msp.protocol();
         self.rc = {
@@ -58,8 +59,14 @@ var Copter = (function () {
                 self.write(200, prepare());
             }, 10);
 
+            joystick.on('button', function (data) {
+                if (data.number === 8 && data.value === 1) {
+                    self.armed = self.armed ? false : true;
+                    self.rc.aux1 = self.armed ? 1000 : 2000;
+                }
+            });
+
             joystick.on('axis', function (data) {
-                console.log(data);
                 if (data.number == 2 && data.type === 'axis') {
                     if (data.value > 30000) {
                         data.value = 30000;
@@ -84,7 +91,7 @@ var Copter = (function () {
                     self.rc.roll = parseInt(1500 - data.value / 60, 10);
                 }
 
-                if (data.number == 0 && data.type === 'axis') {
+                if (data.number === 0 && data.type === 'axis') {
                     if (data.value > 30000) {
                         data.value = 30000;
                     }
@@ -96,19 +103,7 @@ var Copter = (function () {
                     self.rc.pitch = parseInt(1500 - data.value / 60, 10);
                 }
 
-                if (data.number == 1 && data.type === 'axis') {
-                    if (data.value < -30000) {
-                        data.value = -30000;
-                    }
-
-                    if (data.value > 0) {
-                        data.value = 0;
-                    }
-
-                    self.rc.throttle = parseInt(1000 - data.value / 30, 10);
-                }
-
-                 if (data.number == 5 && data.type === 'axis') {
+                if (data.number == 5 && data.type === 'axis') {
                     if (data.value > 30000) {
                         data.value = 30000;
                     }
@@ -117,7 +112,13 @@ var Copter = (function () {
                         data.value = -30000;
                     }
 
-                    self.rc.aux1 = parseInt(1500 - data.value / 60, 10);
+                    data.value = data.value + 30000;
+
+                    if (data.value > 600000) {
+                        data.value = 600000;
+                    }
+
+                    self.rc.throttle = parseInt(1000 + data.value / 60, 10);
                 }
             });
         });

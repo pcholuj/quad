@@ -89,6 +89,9 @@ var Serwer = (function () {
 
             socket.on('end', function () {
                 self.clients.splice(self.clients.indexOf(socket), 1);
+
+                self.rc.throttle = 1000;
+                self.rc.aux1 = 2000;
             });
         }).listen(options.port);
     }
