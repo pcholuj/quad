@@ -58,7 +58,7 @@ var Client = (function () {
 
         joystick.on('axis', function (data) {
             // console.log(data);
-            if (data.number == 2 && data.type === 'axis') {
+            if (data.number == 0 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }
@@ -86,7 +86,7 @@ var Client = (function () {
                 });
             }
 
-            if (data.number === 0 && data.type === 'axis') {
+            if (data.number === 4 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }
@@ -100,7 +100,7 @@ var Client = (function () {
                 });
             }
 
-            if (data.number == 5 && data.type === 'axis') {
+            if (data.number == 2 && data.type === 'axis') {
                 if (data.value > 30000) {
                     data.value = 30000;
                 }
