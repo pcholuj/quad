@@ -34,8 +34,8 @@ var Serwer = (function () {
             roll: 1500,
             pitch: 1500,
             yaw: 1500,
-            throttle: 1500,
-            aux1: 1500,
+            throttle: 1000,
+            aux1: 1000,
             aux2: 1500,
             aux3: 1500,
             aux4: 1500
@@ -67,8 +67,8 @@ var Serwer = (function () {
                 roll: 1500,
                 pitch: 1500,
                 yaw: 1500,
-                throttle: 1500,
-                aux1: 1500,
+                throttle: 1000,
+                aux1: 2000,
                 aux2: 1500,
                 aux3: 1500,
                 aux4: 1500
@@ -108,7 +108,7 @@ var Serwer = (function () {
                 self.clients.splice(self.clients.indexOf(socket), 1);
 
                 self.rc.throttle = 1000;
-                self.rc.aux1 = 2000;
+                self.rc.aux1 = 1000;
             });
         }).listen(options.port);
     }
