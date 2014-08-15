@@ -24,6 +24,7 @@ var Serwer = (function () {
             return new Serwer(options);
         }
         var self = this;
+        var intervalRc = null;
 
         self.cache = '';
         self.msp = new msp.protocol();
@@ -56,9 +57,25 @@ var Serwer = (function () {
                 console.log('error', arguments);
             });
 
-            setInterval(function () {
+            intervalRc = setInterval(function () {
                 self.portWrite(200, self.parseRc.call(self));
             }, 100);
+        });
+
+        process.on('exit', function (code) {
+            self.rc = {
+                roll: 1500,
+                pitch: 1500,
+                yaw: 1500,
+                throttle: 1500,
+                aux1: 1500,
+                aux2: 1500,
+                aux3: 1500,
+                aux4: 1500
+            };
+
+            clearInterval(intervalRc);
+            self.portWrite(200, self.parseRc.call(self));
         });
 
 
